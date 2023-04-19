@@ -1,4 +1,4 @@
-# Data-Visuals-AngelHack
+# UniRank Explorer Data visuals AngelHack
 
 This is a data visualisation web app built using python and streamlit.
 The data is sourced from Kaggle over a period of years from 2011 to 2023.

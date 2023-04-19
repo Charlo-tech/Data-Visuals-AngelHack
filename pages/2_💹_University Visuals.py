@@ -204,3 +204,48 @@ fig.update_traces(textinfo="percent+label", marker=dict(line=dict(color="#FFFFFF
 st.write("Top 10 Civil Engineering Universities in 2023:")
 st.write(ranking_table)
 st.plotly_chart(fig)
+
+# Load data
+@st.cache_data
+def load_data():
+    data = pd.read_csv("2023_rankings.csv")
+    return data
+
+df = load_data()
+
+# Filter data for universities in United States
+us_data = df[df['location'] == 'United States']
+
+# Create table
+table = us_data[['name', 'rank', 'subjects_offered']].drop_duplicates().reset_index(drop=True)
+
+# Display results
+st.write('Table of Universities in the United States:')
+st.write(table)
+
+# Load data
+@st.cache_data
+def load_data():
+    data = pd.read_csv("2023_rankings.csv")
+    return data
+
+df = load_data()
+
+# Filter data for universities in United States
+us_data = df[(df['location'] == 'United States') & (df['subjects_offered'].str.contains('Art', na=False))]
+top_10 = us_data.sort_values(by='rank').head(10)
+
+# Create exploded pie chart
+fig = px.pie(top_10, values='rank', names='name', title='Top 10 Universities in the United States Offering Art',
+             hole=.3, color='name', color_discrete_sequence=px.colors.qualitative.Set3,
+             template='plotly_white', width=700, height=500, labels={'name': 'Name'})
+
+fig.update_traces(textposition='inside', textinfo='percent+label')
+fig.update_layout(showlegend=False)
+# Create table
+table = us_data[['name', 'rank', 'subjects_offered']].drop_duplicates().reset_index(drop=True)
+
+# Display results
+st.plotly_chart(fig)
+st.write('Table of Universities in the United States:')
+st.write(table)
