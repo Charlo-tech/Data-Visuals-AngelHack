@@ -52,3 +52,7 @@ accredited universities and for closed universities. The story tells of areas wi
 We considered jupyter notebooks for the visualization but we wanted the portability of a web app, and so we settled on Streamlit as it allows us to set up everything however we want and need it to be. We focused on a few study areas as the dataset was quite large and we would like to continue with the analysis post submission.
 
 # Video demo
+
+
+https://user-images.githubusercontent.com/57678615/233214955-d0a1e321-e6f8-4537-a5e3-0e55c280dde7.mp4
+
