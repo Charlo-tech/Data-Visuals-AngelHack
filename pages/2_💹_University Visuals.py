@@ -3,6 +3,9 @@ import plotly.express as px
 import pandas as pd
 import matplotlib.pyplot as plt
 
+st.sidebar.title("UniRank Explorer: Discovering Global Universities through Data Visualization")
+st.sidebar.write("This is a streamlit dashboard to analyze university data from 2011 to 2023")
+
 # Load data
 @st.cache_data
 def load_data():
