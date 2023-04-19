@@ -72,7 +72,7 @@ table = pd.DataFrame({
 st.plotly_chart(fig)
 st.write(" University distribution by location", table)
 
-df = df[df['subjects_offered'] == 'Computer Science']
+df = df[df['subjects_offered'].str.contains('Computer Science')]
 
 # Sort data by rank and select top 10 universities
 df = df.sort_values(by='rank_order', ascending=True).head(10)
