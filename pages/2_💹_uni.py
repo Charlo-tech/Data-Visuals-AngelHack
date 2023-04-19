@@ -32,6 +32,8 @@ table = pd.DataFrame({
 
 st.plotly_chart(fig)
 st.write(table)
+st.write("The data presented shows that all universities are up and running and none is closed as of 2023")
+
 # Distribution of universities by country 2023
 
 @st.cache_data
@@ -72,25 +74,38 @@ table = pd.DataFrame({
 st.plotly_chart(fig)
 st.write(" University distribution by location", table)
 
-df = df[df['subjects_offered'].str.contains('Computer Science')]
+@st.cache_data
+def load_data():
+    data = pd.read_csv("2023_rankings.csv")
+    return data
 
-# Sort data by rank and select top 10 universities
-df = df.sort_values(by='rank_order', ascending=True).head(10)
+df = load_data()
+filtered_data = df[(df["subjects_offered"].str.contains("Computer Science", na=False))]
 
-# Create table
-table = df[['rank_order', 'name']].reset_index(drop=True)
-table.index += 1
-table.columns = ['rank_order', 'name']
-st.write(table)
+# Sort data by ranking
+top_10 = filtered_data.sort_values(by="rank", ascending=True).head(10)
+
+# Create ranking table
+ranking_table = pd.DataFrame({
+    "Rank": top_10["rank"],
+    "University": top_10["name"],
+    "Country": top_10["location"],
+    "Score": top_10["scores_overall"]
+})
 
 # Create pie chart
-fig = px.pie(df, values='rank_order', names='name',
-             title='Top 10 Universities to Study Computer Science',
+location_counts = top_10["location"].value_counts()
+fig = px.pie(location_counts, values=location_counts.values, names=location_counts.index,
+             title="Top 10 Computer Science Universities by Location",
              color_discrete_sequence=px.colors.qualitative.Pastel1,
-             template="seaborn")
+             template="seaborn",
+             hole=0.6)
 
-fig.update_traces(textposition="inside", textinfo="percent+label")
+fig.update_traces(textinfo="percent+label", marker=dict(line=dict(color="#FFFFFF", width=2)))
 
+# Display ranking table and pie chart
+st.write("Top 10 Computer Science Universities in 2023:")
+st.write(ranking_table)
 st.plotly_chart(fig)
 
 
